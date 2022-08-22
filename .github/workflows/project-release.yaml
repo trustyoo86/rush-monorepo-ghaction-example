@@ -1,6 +1,6 @@
 name: 'project release'
 on:
-  pull_request:
+  pull_request_target:
     types:
       - closed
     branches:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   get_branchname:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     outputs:
