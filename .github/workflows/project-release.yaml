@@ -55,7 +55,7 @@ jobs:
       - name: package.json version update
         uses: jaywcjlove/github-action-package@main
         with:
-          file: "./apps/${{ needs.get_branchname.outputs.target }}"
+          path: "./apps/${{ needs.get_branchname.outputs.target }}"
           data: |
             {
               "version": "${{ needs.get_branchname.outputs.version }}"
