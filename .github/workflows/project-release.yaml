@@ -53,16 +53,19 @@ jobs:
           node-version: 14
 
       - name: package.json version update
-        uses: jossef/action-set-json-field@v2
+        uses: jaywcjlove/github-action-package@main
         with:
-          file: "./apps/${{ needs.get_branchname.outputs.target }}/package.json"
-          field: version
-          value: ${{ needs.get_branchname.outputs.version }}
+          file: "./apps/${{ needs.get_branchname.outputs.target }}"
+          data: |
+            {
+              "version": "${{ needs.get_branchname.outputs.version }}"
+            }
 
       - name: commit files
         run: |
           git config --local user.email "rootuser@hanseungyoo.com"
           git config --local user.name "root user"
+          git add .
           git commit -m ":rocket: My APP ${{ needs.get_branchname.outputs.target }} release v${{ needs.get_branchname.outputs.version }}"
           git tag 
           
