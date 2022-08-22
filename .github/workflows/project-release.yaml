@@ -55,7 +55,7 @@ jobs:
       - name: package.json version update
         uses: jossef/action-set-json-field@v2
         with:
-          file: ./apps/${{ needs.get_branchname.outputs.target }}
+          file: "./apps/${{ needs.get_branchname.outputs.target }}"
           field: version
           value: ${{ needs.get_branchname.outputs.version }}
 
@@ -83,8 +83,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag_name: ${{ needs.get_branchname.outputs.target }}/v${{needs.get_branchname.outputs.version}}
-          release_name: ${{ steps.target_string.outputs.uppercase }} - v${{needs.get_branchname.outputs.version}}
+          tag_name: "${{ needs.get_branchname.outputs.target }}/v${{needs.get_branchname.outputs.version}}"
+          release_name: "${{ steps.target_string.outputs.uppercase }} - v${{needs.get_branchname.outputs.version}}"
           draft: false
           prerelease: false
 
