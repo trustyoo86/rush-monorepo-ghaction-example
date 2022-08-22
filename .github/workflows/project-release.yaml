@@ -14,6 +14,7 @@ jobs:
 
     steps:
       - name: Get current branch name
+        if: steps.branch-name.outputs.is_default == 'false'
         id: branch-name
         uses: tj-actions/branch-names@v5.5
 
