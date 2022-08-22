@@ -44,11 +44,6 @@ jobs:
         with:
           string: ${{ needs.get_branchname.outputs.target }}
 
-      - name: Cat package.json
-        working-directory: ./apps/${{ needs.get_branchname.outputs.target }}
-        run:
-          cat ./package.json
-
       - name: 'setup nodejs'
         uses: actions/setup-node@v1
         with:
