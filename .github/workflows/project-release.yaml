@@ -4,9 +4,7 @@ on:
     types:
       - closed
     branches:
-      - 'projecta/**'
-      - 'proejctb/**'
-
+      - main
 jobs:
   get_branchname:
     if: github.event.pull_request.merged == true
