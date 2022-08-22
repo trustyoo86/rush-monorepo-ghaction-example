@@ -12,8 +12,8 @@ jobs:
 
     outputs:
       branch: ${{ steps.branch-name.outputs.current_branch }}
-      target: ${{ steps.branch-version.outputs._0 }}
-      version: ${{ steps.branch-version.outputs._1 }}
+      target: ${{ steps.release-info.outputs._0 }}
+      version: ${{ steps.release-info.outputs._1 }}
 
     steps:
       - name: Get current branch name
