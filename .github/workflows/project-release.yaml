@@ -1,20 +1,23 @@
 name: 'project release'
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - main
+      - 'projecta/**'
+      - 'proejctb/**'
 
 jobs:
   get_branchname:
     runs-on: ubuntu-latest
 
     outputs:
+      branch: ${{ steps.branch-name.outputs.current_branch }}
       target: ${{ steps.branch-version.outputs._0 }}
       version: ${{ steps.branch-version.outputs._1 }}
 
     steps:
       - name: Get current branch name
-        if: steps.branch-name.outputs.is_default == 'false'
         id: branch-name
         uses: tj-actions/branch-names@v5.5
 
@@ -62,15 +65,21 @@ jobs:
           git config --local user.email "rootuser@hanseungyoo.com"
           git config --local user.name "root user"
           git commit -m ":rocket: My APP ${{ needs.get_branchname.outputs.target }} release v${{ needs.get_branchname.outputs.version }}"
+          git tag 
           
       - name: changes push
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ github.token }}
-          branch: 'main'
+          branch: main
+
+      # - uses: actions-ecosystem/action-push-tag@v1
+      #   with:
+      #     tag: ${{ needs.get_branchname.outputs.target }}/v${{needs.get_branchname.outputs.version }}
+      #     message: ":rocket: My APP ${{ needs.get_branchname.outputs.target }} release v${{ needs.get_branchname.outputs.version }}"
 
       - name: Create github release
-        if: github.event.pull_request.merged == true
+        # if: github.event.pull_request.merged == true
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -80,17 +89,17 @@ jobs:
           draft: false
           prerelease: false
 
-  release_branch_merge:
-    runs-on: ubuntu-latest
-    needs: package_bump
-    steps:
-      - name: Merge ${{ needs.package_bump.outputs.target }} branch release
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          from_branch: develop
-          target_branch: qa
-          github_token: ${{ github.token }}
+  # release_branch_merge:
+  #   runs-on: ubuntu-latest
+  #   needs: package_bump
+  #   steps:
+  #     - name: Merge ${{ needs.package_bump.outputs.target }} branch release
+  #       uses: devmasx/merge-branch@master
+  #       with:
+  #         type: now
+  #         from_branch: develop
+  #         target_branch: qa
+  #         github_token: ${{ github.token }}
 
 
 
