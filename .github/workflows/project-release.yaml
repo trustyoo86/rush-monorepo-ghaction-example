@@ -44,12 +44,6 @@ jobs:
         with:
           string: ${{ needs.get_branchname.outputs.target }}
 
-      - name: Gets semantic release info
-        id: semantic_release_info
-        uses: jossef/action-semantic-release-info@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
       - name: Cat package.json
         working-directory: ./apps/${{ needs.get_branchname.outputs.target }}
         run:
@@ -87,7 +81,6 @@ jobs:
         with:
           tag_name: ${{ needs.get_branchname.outputs.target }}/v${{needs.get_branchname.outputs.version}}
           release_name: ${{ steps.target_string.outputs.uppercase }} - v${{needs.get_branchname.outputs.version}}
-          body: ${{ steps.semantic_release_info.outputs.notes }}
           draft: false
           prerelease: false
 
