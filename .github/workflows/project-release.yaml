@@ -88,17 +88,17 @@ jobs:
           draft: false
           prerelease: false
 
-  # release_branch_merge:
-  #   runs-on: ubuntu-latest
-  #   needs: package_bump
-  #   steps:
-  #     - name: Merge ${{ needs.package_bump.outputs.target }} branch release
-  #       uses: devmasx/merge-branch@master
-  #       with:
-  #         type: now
-  #         from_branch: develop
-  #         target_branch: qa
-  #         github_token: ${{ github.token }}
+  release_branch_merge:
+    runs-on: ubuntu-latest
+    needs: package_bump
+    steps:
+      - name: Merge ${{ needs.package_bump.outputs.target }} branch release
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: ${{ needs.get_branchname.outputs.branch }}
+          target_branch: release/${{ needs.get_branchname.outputs.target }}
+          github_token: ${{ github.token }}
 
 
 
