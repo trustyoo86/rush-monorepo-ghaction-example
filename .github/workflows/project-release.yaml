@@ -91,7 +91,7 @@ jobs:
 
   release_branch_merge:
     runs-on: ubuntu-latest
-    needs: package_bump
+    needs: [get_branchname, package_bump]
     steps:
       - name: Merge ${{ needs.package_bump.outputs.target }} branch release
         uses: devmasx/merge-branch@master
