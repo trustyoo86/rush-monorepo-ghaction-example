@@ -21,7 +21,7 @@ jobs:
         id: release-info
         uses: xom9ikk/split@v1
         with:
-          string: ${{ steps.branch-name.outputs.current_branch }}
+          string: ${{ steps.branch-name.outputs.head_ref_branch }}
           separator: '/'
           limit: -1
 
