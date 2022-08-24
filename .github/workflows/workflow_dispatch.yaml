@@ -1,0 +1,14 @@
+name: 'Workflow dispatch 테스트'
+
+on:
+  workflow_dispatch:
+    branches: 
+      - 'projecta/**'
+      - 'projectb/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.ref }}
+    
