@@ -2,17 +2,50 @@ name: 'Workflow dispatch 테스트'
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: '배포 Branch'
-        required: true
-        type: choice
-        options:
-          - projecta/**
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
-      - run: echo ${{ github.ref }}
-    
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          ref: 'release/projecta'
+
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache rush dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            common/temp/pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: 'rush update'
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: node ./common/scripts/install-run-rush.js update
+
+      - name: rush deploy
+        run: node ./common/scripts/install-run-rush.js deploy --project=projecta
+
+      # - name: Cache next app
+      #   id: nextCache
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       ./common/deploy/apps/projecta/.next/cache
+      #     key: 
+
+      - name: build
+        working-directory: ./common/deploy/apps/projecta
+        run: npm run build
+
+
+  
