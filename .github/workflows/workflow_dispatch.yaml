@@ -2,9 +2,13 @@ name: 'Workflow dispatch 테스트'
 
 on:
   workflow_dispatch:
-    branches: 
-      - 'projecta/**'
-      - 'projectb/**'
+    inputs:
+      branch:
+        description: '배포 Branch'
+        required: true
+        type: choice
+        options:
+          - projecta/**
 
 jobs:
   test:
