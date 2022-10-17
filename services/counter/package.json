@@ -1,14 +1,12 @@
 {
-  "name": "@rmg/core",
+  "name": "@rmg-service/counter",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "rollup -cw",
-    "build": "rollup -c"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "trustyoo86",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "rollup": "~2.79.0",
@@ -17,5 +15,8 @@
     "@rollup/plugin-commonjs": "~22.0.2",
     "rollup-plugin-terser": "~7.0.2",
     "rollup-plugin-typescript2": "~0.34.0"
+  },
+  "dependencies": {
+    "@rmg/core": "workspace:*"
   }
 }

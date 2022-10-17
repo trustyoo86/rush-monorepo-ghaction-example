@@ -407,6 +407,10 @@
     {
       "packageName": "@rmg/core",
       "projectFolder": "core"
+    },
+    {
+      "packageName": "@rmg-service/counter",
+      "projectFolder": "services/counter"
     }
     // {
     //   /**
