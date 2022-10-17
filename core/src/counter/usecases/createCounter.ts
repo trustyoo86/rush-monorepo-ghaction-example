@@ -7,7 +7,7 @@ export abstract class CreateCounterUsecase implements Usecase<Counter> {
   abstract excute(...args: any[]): Counter;
 }
 
-export class CreateCounterUsecaseImple implements CreateCounterUsecase {
+export class CreateCounterUsecaseImpl implements CreateCounterUsecase {
   constructor(private counterRepository: CounterRepository) {}
 
   excute(...args: any[]): Counter {

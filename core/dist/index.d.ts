@@ -1,2 +1,1 @@
-declare function test(): void;
-export default test;
+export * from './counter';
