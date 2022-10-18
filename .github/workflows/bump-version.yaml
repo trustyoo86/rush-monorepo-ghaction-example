@@ -1,0 +1,60 @@
+name: 'bump version release'
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: '배포 버전 선택'
+        required: true
+
+jobs:
+  release:
+    name: 'project release'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v1
+        with:
+          ref: release/${{ github.event.inputs.target }}
+      
+      - name: project a package.json version update
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: apps/projecta/package.json
+          field: version
+          value: ${{ github.event.inputs.target }}
+
+      - name: project b package.json version update
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: apps/projectb/package.json
+          field: version
+          value: ${{ github.event.inputs.target }}
+
+      - name: commit files
+        run: |
+          git config --local user.email "rootuser@hanseungyoo.com"
+          git config --local user.name "root user"
+          git add .
+          git commit -m ":rocket: My APP release v${{ needs.get_branchname.outputs.version }}"
+          git tag 
+
+      - name: changes push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ github.token }}
+          branch: main
+
+      - name: create github release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: "release/v${{github.event.inputs.target}}"
+          release_name: "Both project release - v${{github.event.inputs.target}}"
+          draft: false
+          prerelease: false
+      
+        
