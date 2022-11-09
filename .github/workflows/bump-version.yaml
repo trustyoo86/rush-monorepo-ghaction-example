@@ -26,12 +26,12 @@ jobs:
           field: version
           value: ${{ github.event.inputs.target }}
 
-      - name: project b package.json version update
-        uses: jossef/action-set-json-field@v2
-        with:
-          file: apps/projectb/package.json
-          field: version
-          value: ${{ github.event.inputs.target }}
+      # - name: project b package.json version update
+      #   uses: jossef/action-set-json-field@v2
+      #   with:
+      #     file: apps/projectb/package.json
+      #     field: version
+      #     value: ${{ github.event.inputs.target }}
 
       - name: commit files
         run: |
