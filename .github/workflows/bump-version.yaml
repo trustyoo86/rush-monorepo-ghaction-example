@@ -17,7 +17,7 @@ jobs:
       - name: Repository checkout
         uses: actions/checkout@v1
         with:
-          ref: release/${{ github.event.inputs.target }}
+          ref: main
       
       - name: project a package.json version update
         uses: jossef/action-set-json-field@v2
