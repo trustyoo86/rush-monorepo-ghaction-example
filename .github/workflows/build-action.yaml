@@ -43,7 +43,7 @@ jobs:
 
       - name: check build cache
         uses: actions/cache@v3
-        id: cache_built_packages
+        id: cache_build_app
         with:
           path: $GITHUB_WORKSPACE/apps/projecta/.next
           key: ${{ runner.os }}-next-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
@@ -51,4 +51,10 @@ jobs:
             ${{ runner.os }}-next-projecta
               ${{ runner.os }}-next-
               ${{ runner.os }}-
+
+      - name: build project
+        working-directory: ./apps/web
+        if: steps.cache_build_app.outputs.cache-hit != 'true'
+        run: node $GITHUB_WORKSPACE/common/scripts/install-run-rushx.js build
+    
 
