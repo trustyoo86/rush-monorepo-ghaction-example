@@ -54,7 +54,6 @@ jobs:
 
       - name: build project
         working-directory: apps/projecta
-        if: steps.cache_build_app.outputs.cache-hit != 'true'
         run: node $GITHUB_WORKSPACE/common/scripts/install-run-rushx.js build
     
 
