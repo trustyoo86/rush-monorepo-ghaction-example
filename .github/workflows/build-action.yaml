@@ -1,0 +1,54 @@
+name: 'build-test'
+on:
+  workflow_dispatch:
+
+jobs:
+  install_dependency:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # - name: Compute dependency cache key
+      #   id: compute_lockfile_hash
+      #   run: echo "::set-output name=hash::${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}"
+
+      # - name: cache pnpm
+      #   id: pnpm_cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       $GITHUB_WORKSPACE/common/temp/pnpm-store
+      #       $GITHUB_WORKSPACE/common/temp/node_modules
+      #       $GITHUB_WORKSPACE/apps/projecta/node_modules
+      #     key: ${{ steps.compute_lockfile_hash.outputs.hash }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-projecta
+      #       ${{ runner.os }}-pnpm-
+      #       ${{ runner.os }}-
+
+      - name: rush update
+        # if: steps.pnpm_cache.outputs.cache-hit != 'true'
+        run: node $GITHUB_WORKSPACE/common/scripts/install-run-rush.js update
+
+      - name: check build cache
+        uses: actions/cache@v3
+        id: cache_built_packages
+        with:
+          path: $GITHUB_WORKSPACE/apps/projecta/.next
+          key: ${{ runner.os }}-next-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-next-projecta
+              ${{ runner.os }}-next-
+              ${{ runner.os }}-
+
