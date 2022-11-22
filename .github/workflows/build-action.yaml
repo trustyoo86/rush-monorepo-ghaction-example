@@ -45,7 +45,7 @@ jobs:
         uses: actions/cache@v3
         id: cache_build_app
         with:
-          path: $GITHUB_WORKSPACE/apps/projecta/.next
+          path: apps/projecta/.next
           key: ${{ runner.os }}-next-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-next-projecta
