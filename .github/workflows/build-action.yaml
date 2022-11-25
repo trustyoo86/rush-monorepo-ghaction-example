@@ -9,6 +9,13 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
+      - name: aws credential settings
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
       - name: Repository checkout
         uses: actions/checkout@v2
         with:
@@ -23,22 +30,19 @@ jobs:
       #   id: compute_lockfile_hash
       #   run: echo "::set-output name=hash::${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}"
 
-      # - name: cache pnpm
-      #   id: pnpm_cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       $GITHUB_WORKSPACE/common/temp/pnpm-store
-      #       $GITHUB_WORKSPACE/common/temp/node_modules
-      #       $GITHUB_WORKSPACE/apps/projecta/node_modules
-      #     key: ${{ steps.compute_lockfile_hash.outputs.hash }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pnpm-projecta
-      #       ${{ runner.os }}-pnpm-
-      #       ${{ runner.os }}-
+      - name: cache pnpm
+        id: pnpm_cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            $GITHUB_WORKSPACE/common/temp/pnpm-store
+          key: ${{ steps.compute_lockfile_hash.outputs.hash }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-projecta
+            ${{ runner.os }}-pnpm-
+            ${{ runner.os }}-
 
       - name: rush update
-        # if: steps.pnpm_cache.outputs.cache-hit != 'true'
         run: node $GITHUB_WORKSPACE/common/scripts/install-run-rush.js update
 
       - name: check build cache

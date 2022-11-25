@@ -1,0 +1,7 @@
+projecta:
+  component: "@sls-next/serverless-component@3.7.0"
+  inputs:
+    bucketRegion: 'ap-northeast-2'
+    bucketName: 'nextjs-projecta-s3'
+  name:
+    defaultLambda: 'nextjs-projecta-labmda'
