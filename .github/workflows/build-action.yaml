@@ -36,10 +36,9 @@ jobs:
         with:
           path: |
             $GITHUB_WORKSPACE/common/temp/pnpm-store
-          key: ${{ steps.compute_lockfile_hash.outputs.hash }}
+          key: ${{ runner.os }}-pnpm-projecta-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-projecta
-            ${{ runner.os }}-pnpm-
             ${{ runner.os }}-
 
       - name: rush update
@@ -50,10 +49,9 @@ jobs:
         id: cache_build_app
         with:
           path: apps/projecta/.next
-          key: ${{ runner.os }}-next-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          key: ${{ runner.os }}-next-projecta-${{ hashFiles('apps/projecta/**.[jt]s', 'apps/projecta/**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-next-projecta
-              ${{ runner.os }}-next-
+              ${{ runner.os }}-next-projecta
               ${{ runner.os }}-
 
       - name: build project
