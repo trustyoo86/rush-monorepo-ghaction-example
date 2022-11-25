@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            $GITHUB_WORKSPACE/common/temp/pnpm-store
+            common/temp/pnpm-store
           key: ${{ runner.os }}-pnpm-projecta-${{ hashFiles('/common/config/rush/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-projecta
