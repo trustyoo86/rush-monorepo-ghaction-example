@@ -58,6 +58,6 @@ jobs:
 
       - name: build project
         working-directory: apps/projecta
-        run: node $GITHUB_WORKSPACE/common/scripts/install-run-rushx.js build
+        run: node $GITHUB_WORKSPACE/common/scripts/install-run-rushx.js deploy
     
 
