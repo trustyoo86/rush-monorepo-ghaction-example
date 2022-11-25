@@ -26,9 +26,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # - name: Compute dependency cache key
-      #   id: compute_lockfile_hash
-      #   run: echo "::set-output name=hash::${{ hashFiles('common/config/rush/pnpm-lock.yaml') }}"
+      - name: Compute dependency cache key
+        id: compute_lockfile_hash
+        run: echo "::set-output name=hash::${{ hashFiles('apps/projecta/**.[jt]s', 'apps/projecta/**.[jt]sx') }}"
 
       - name: cache pnpm
         id: pnpm_cache
